@@ -211,12 +211,13 @@
     <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
     <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
     <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
-    <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
     <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
+    <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
     <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
-    <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
     <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
-    <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>    
+    <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
+    <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>
+    <label><input type="checkbox" data-category="genre" value="中華料理"> 中華料理</label>   
   </div>
 
   <div class="filter-group" id="scene-options">
@@ -226,6 +227,7 @@
     <label><input type="checkbox" data-category="scene" value="家族・子供と"> 家族・子供と</label>
     <label><input type="checkbox" data-category="scene" value="一人で入りやすい"> 一人で入りやすい</label>
     <label><input type="checkbox" data-category="scene" value="接待・大人の集まり"> 接待・大人の集まり</label>
+    <label><input type="checkbox" data-category="scene" value="女子会"> 女子会</label>
   </div>
 
   <div class="filter-group" id="seat-options">
@@ -385,6 +387,114 @@ const shops = [
   "course": ["飲み放題"],
   "alcohol": ["神泡"],
   "url": "https://tabelog.com/hyogo/A2804/A280401/28038708/"
+},
+{
+  "name": "YAKINIKUEN 忍鬨 東心斎橋2号店",
+  "address": "大阪府大阪市中央区東心斎橋1-7-10 アパホテルなんば心斎橋東 1F",
+  "lat": 34.672802,
+  "lng": 135.505043,
+  "genre": ["焼肉"],
+  "scene": ["家族・子供と"],
+  "seat": ["なし"],
+  "course": ["なし"],
+  "alcohol": ["神泡"],
+  "url": "https://tabelog.com/osaka/A2701/A270201/27128762/"
+},
+{
+  "name": "但馬屋イーマ",
+  "address": "大阪府大阪市北区梅田1-12-6 イーマ　５Ｆ",
+  "lat": 34.700645,
+  "lng": 135.498624,
+  "genre": ["焼肉"],
+  "scene": ["家族・子供と", "接待・大人の集まり", "デート・友人と"],
+  "seat": ["個室"],
+  "course": ["飲み放題"],
+  "alcohol": ["日本酒", "ワイン"],
+  "url": "https://tabelog.com/osaka/A2701/A270101/27040612/"
+},
+{
+  "name": "四川曹家官府菜　蜀　（suu）",
+  "address": "兵庫県神戸市中央区下山手通4-13-5 三木ビル",
+  "lat": 34.692594,
+  "lng": 135.18581,
+  "genre": ["中華料理", "居酒屋"],
+  "scene": ["家族・子供と", "一人で入りやすい", "デート・友人と"],
+  "seat": ["個室","貸切"],
+  "course": ["なし"],
+  "alcohol": ["なし"],
+  "url": "https://tabelog.com/hyogo/A2801/A280102/28023301/"
+},
+{
+  "name": "すみび焼肉　Da-Wa",
+  "address": "大阪府大阪市福島区福島7-8-3 福本ビル 3F",
+  "lat": 34.696772,
+  "lng": 135.485621,
+  "genre": ["焼肉"],
+  "scene": ["家族・子供と", "デート・友人と"],
+  "seat": ["貸切"],
+  "course": ["なし"],
+  "alcohol": ["ワイン"],
+  "url": "https://tabelog.com/osaka/A2701/A270108/27123777/"
+},
+{
+  "name": "焼肉一丁 難波店",
+  "address": "大阪府大阪市中央区難波3-1-25",
+  "lat": 34.665787,
+  "lng": 135.502224,
+  "genre": ["焼肉"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": ["個室","貸切"],
+  "course": ["なし"],
+  "alcohol": ["ワイン"],
+  "url": "https://tabelog.com/osaka/A2701/A270202/27020008/"
+},
+{
+  "name": "酒と肴 SUIGEI",
+  "address": "大阪府大阪市北区芝田1-7-2",
+  "lat": 34.707354,
+  "lng": 135.497981,
+  "genre": ["海鮮","居酒屋"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": ["なし"],
+  "course": ["なし"],
+  "alcohol": ["神泡","日本酒"],
+  "url": "https://tabelog.com/osaka/A2701/A270101/27108085/"
+},
+{
+  "name": "中崎バール Switch",
+  "address": "大阪府大阪市北区中崎西1-4-22 梅田東ビル1F",
+  "lat": 34.706647,
+  "lng": 135.503858,
+  "genre": ["イタリアン"],
+  "scene": ["女子会", "デート・友人と"],
+  "seat": ["貸切"],
+  "course": ["なし"],
+  "alcohol": ["神泡","ワイン"],
+  "url": "https://tabelog.com/osaka/A2701/A270101/27062704/"
+},
+{
+  "name": "くずし割烹　ZUTTO",
+  "address": "兵庫県神戸市垂水区平磯4-4-16 川本ビル 1F",
+  "lat": 34.628912,
+  "lng": 135.055324,
+  "genre": ["居酒屋", "海鮮"],
+  "scene": ["家族・子供と", "接待・大人の集まり", "デート・友人と"],
+  "seat": ["貸切", "個室"],
+  "course": ["飲み放題"],
+  "alcohol": ["焼酎","日本酒"],
+  "url": "https://tabelog.com/hyogo/A2801/A280110/28052878/"
+},
+{
+  "name": "はらペコ屋 たま商店",
+  "address": "岡山県岡山市北区岩田町2-31",
+  "lat": 34.6693,
+  "lng": 133.920934,
+  "genre": ["居酒屋"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": ["個室"],
+  "course": ["飲み放題"],
+  "alcohol": ["なし"],
+  "url": "https://tabelog.com/okayama/A3301/A330101/33018416/"
 },
 ];
 
