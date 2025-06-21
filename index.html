@@ -139,7 +139,7 @@
 </head>
 <body>
 
-<script>
+<!-- <script>
   let pw;
   do {
     pw = prompt("パスワードを入力してください:");
@@ -152,7 +152,7 @@
       alert("パスワードが違います。もう一度入力してください。");
     }
   } while (pw !== "abc123");
-</script>
+</script> -->
 
 
 <div id="filter-toggle" title="フィルターを表示">
@@ -162,23 +162,48 @@
 <div id="filter-panel">
   <div class="filter-group" id="genre-options">
     <h4>ジャンル</h4>
-    <label><input type="checkbox" data-category="genre" value="カフェ"> カフェ</label>
-    <label><input type="checkbox" data-category="genre" value="レストラン"> レストラン</label>
-    <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
+    <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
+    <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
+    <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
+    <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
+    <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
+    <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>    
   </div>
 
-  <div class="filter-group" id="mood-options">
-    <h4>雰囲気</h4>
-    <label><input type="checkbox" data-category="mood" value="落ち着いた"> 落ち着いた</label>
-    <label><input type="checkbox" data-category="mood" value="にぎやか"> にぎやか</label>
+  <div class="filter-group" id="scene-options">
+    <h4>利用シーン</h4>
+    <label><input type="checkbox" data-category="scene" value="大人数の宴会"> 大人数の宴会</label>
+    <label><input type="checkbox" data-category="scene" value="デート・友人と"> デート・友人と</label>
+    <label><input type="checkbox" data-category="scene" value="家族・子供と"> 家族・子供と</label>
+    <label><input type="checkbox" data-category="scene" value="一人で入りやすい"> 一人で入りやすい</label>
+    <label><input type="checkbox" data-category="scene" value="接待・大人の集まり"> 接待・大人の集まり</label>
   </div>
 
-  <div class="filter-group" id="people-options">
-    <h4>人数</h4>
-    <label><input type="checkbox" data-category="people" value="1〜2人"> 1〜2人</label>
-    <label><input type="checkbox" data-category="people" value="3〜4人"> 3〜4人</label>
-    <label><input type="checkbox" data-category="people" value="5人以上"> 5人以上</label>
+  <div class="filter-group" id="seat-options">
+    <h4>席・設備</h4>
+    <label><input type="checkbox" data-category="seat" value="貸切"> 貸切</label>
+    <label><input type="checkbox" data-category="seat" value="個室"> 個室</label>
   </div>
+
+  <div class="filter-group" id="course-options">
+    <h4>コース</h4>
+    <label><input type="checkbox" data-category="course" value="飲み放題"> 飲み放題</label>
+    <label><input type="checkbox" data-category="course" value="食べ放題"> 食べ放題</label>
+    <label><input type="checkbox" data-category="course" value="食べ飲み放題"> 食べ飲み放題</label>
+  </div>
+
+  <div class="filter-group" id="alcohol-options">
+    <h4>ドリンク</h4>
+    <label><input type="checkbox" data-category="alcohol" value="ザ・パーフェクト黒ラベル"> ザ・パーフェクト黒ラベル</label>
+    <label><input type="checkbox" data-category="alcohol" value="神泡"> 神泡</label>
+    <label><input type="checkbox" data-category="alcohol" value="エクストラコールド"> エクストラコールド</label>
+        <label><input type="checkbox" data-category="alcohol" value="地ビール"> 地ビール</label>
+            <label><input type="checkbox" data-category="alcohol" value="地酒"> 地酒</label>
+    <label><input type="checkbox" data-category="alcohol" value="日本酒"> 日本酒</label>
+    <label><input type="checkbox" data-category="alcohol" value="焼酎"> 焼酎</label>
+    <label><input type="checkbox" data-category="alcohol" value="ワイン"> ワイン</label>
+  </div>
+
 
   <div class="filter-group keyword-group">
     <h4>キーワード</h4>
@@ -192,7 +217,248 @@
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="main.js"></script>
+<script>
+const map = L.map('map').setView([34.678, 135.160], 15);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+let markers = [];
+
+// ---------------------- 店舗データ ----------------------
+const shops = [
+  {
+    "name": "新潟の地酒と銀しゃり 信",
+    "address": "大阪府大阪市中央区南本町3-3-23 インペリアル船場ビル B1F",
+    "lat": 34.686408,
+    "lng": 135.501984,
+    "genre": ["居酒屋", "海鮮"],
+    "scene": ["家族・子供と", "一人で入りやすい"],
+    "seat": "貸切",
+    "course": "飲み放題",
+    "alcohol": ["ザ・パーフェクト黒ラベル", "日本酒"],
+    "url": "https://tabelog.com/osaka/A2701/A270106/27090438"
+  },
+  {
+    "name": "とり禅",
+    "address": "〒650-0004 兵庫県神戸市中央区中山手通1-9-2 MOZANビル 1F",
+    "lat": 34.69561,
+    "lng": 135.192221,
+    "genre": ["焼き鳥", "居酒屋"],
+    "scene": ["大人数の宴会", "デート・友人と"],
+    "seat": ["個室", "貸切"],
+    "course": "飲み放題",
+    "alcohol": ["焼酎"],
+    "url": "https://tabelog.com/hyogo/A2801/A280101/28028831"
+  },
+  {
+  "name": "スタンド クラシック",
+  "address": "兵庫県神戸市中央区北長狭通1-31-33",
+  "lat": 34.692336,
+  "lng": 135.19198,
+  "genre": ["立ち飲み"],
+  "scene": ["一人で入りやすい", "デート・友人と"],
+  "seat": "なし",
+  "course": "なし",
+  "alcohol": ["ザ・パーフェクト黒ラベル", "日本酒"], 
+  "url": "https://tabelog.com/hyogo/A2801/A280101/28048536/"
+},
+{
+  "name": "スターボード",
+  "address": "兵庫県神戸市中央区北長狭通2-7-12 pmptビル 2F",
+  "lat": 34.692156,
+  "lng": 135.189986,
+  "genre": ["ビアガーデン", "イタリアン"],
+  "scene": ["大人数の宴会", "デート・友人と", "一人で入りやすい"],
+  "seat": "なし",
+  "course": ["飲み放題", "食べ飲み放題"],
+  "alcohol": ["地ビール"],
+  "url": "https://tabelog.com/hyogo/A2801/A280101/28026306/"
+},
+{
+  "name": "一夜一夜 神戸本店",
+  "address": "兵庫県神戸市中央区中山手通1-9-12 Ｍ’Ｓビル １Ｆ",
+  "lat": 34.695648,
+  "lng": 135.191926,
+  "genre": ["居酒屋", "海鮮"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": "なし",
+  "course": ["飲み放題", "食べ放題", "食べ飲み放題"],
+  "alcohol": ["日本酒", "地酒"],
+  "url": "https://tabelog.com/hyogo/A2801/A280101/28000741/"
+},
+{
+  "name": "食堂 丸山",
+  "address": "兵庫県神戸市中央区下山手通8-15-1 ライオンズマンション神戸元町第三 1F",
+  "lat": 34.687122,
+  "lng": 135.17963,
+  "genre": ["居酒屋", "海鮮"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": "なし",
+  "course": ["飲み放題", "食べ放題", "食べ飲み放題"],
+  "alcohol": ["日本酒", "地酒"],
+  "url": "https://tabelog.com/hyogo/A2801/A280102/28067405/"
+}
+
+];
+
+const selectedFilters = {
+  genre: [],
+  scene: [],
+  seat: [],
+  course: [],
+  alcohol: [] 
+};
+
+const keywordInput = document.getElementById('keyword');
+const filterToggle = document.getElementById('filter-toggle');
+const filterPanel = document.getElementById('filter-panel');
+const clearFiltersBtn = document.getElementById('clear-filters');
+const autoCompleteList = document.getElementById('autocomplete-list');
+
+// カスタムアイコンをジャンルごとに設定
+const icons = {
+  default: L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+    shadowSize: [41, 41]
+  }),
+  // 他のジャンル用アイコンがあればここに追加（今回使わない）
+};
+
+filterToggle.addEventListener('click', () => {
+  if (filterPanel.style.maxHeight && filterPanel.style.maxHeight !== '0px') {
+    filterPanel.style.maxHeight = '0';
+    filterPanel.style.opacity = '0';
+    filterPanel.style.pointerEvents = 'none';
+  } else {
+    filterPanel.style.maxHeight = filterPanel.scrollHeight + 'px';
+    filterPanel.style.opacity = '1';
+    filterPanel.style.pointerEvents = 'auto';
+  }
+});
+
+document.querySelectorAll('#filter-panel input[type="checkbox"]').forEach(checkbox => {
+  checkbox.addEventListener('change', () => {
+    selectedFilters.genre = Array.from(document.querySelectorAll('input[data-category="genre"]:checked')).map(cb => cb.value);
+    selectedFilters.scene = Array.from(document.querySelectorAll('input[data-category="scene"]:checked')).map(cb => cb.value);
+    selectedFilters.seat = Array.from(document.querySelectorAll('input[data-category="seat"]:checked')).map(cb => cb.value);
+    selectedFilters.course = Array.from(document.querySelectorAll('input[data-category="course"]:checked')).map(cb => cb.value);
+    selectedFilters.alcohol = Array.from(document.querySelectorAll('input[data-category="alcohol"]:checked')).map(cb => cb.value);
+    updateMarkers();
+  });
+});
+
+keywordInput.addEventListener('input', () => {
+  const val = keywordInput.value.trim().toLowerCase();
+  if (val.length === 0) {
+    autoCompleteList.style.display = 'none';
+    updateMarkers();
+    return;
+  }
+  const matches = shops.filter(shop =>
+    shop.name.toLowerCase().includes(val) || shop.address.toLowerCase().includes(val)
+  ).slice(0, 10);
+
+  autoCompleteList.innerHTML = '';
+  if (matches.length === 0) {
+    autoCompleteList.style.display = 'none';
+    updateMarkers();
+    return;
+  }
+  matches.forEach(shop => {
+    const li = document.createElement('li');
+    li.textContent = shop.name + ' - ' + shop.address;
+    li.addEventListener('mousedown', () => {
+      keywordInput.value = shop.name;
+      autoCompleteList.style.display = 'none';
+      updateMarkers();
+    });
+    autoCompleteList.appendChild(li);
+  });
+  autoCompleteList.style.display = 'block';
+});
+
+document.addEventListener('click', e => {
+  if (!keywordInput.contains(e.target) && !autoCompleteList.contains(e.target)) {
+    autoCompleteList.style.display = 'none';
+  }
+});
+
+keywordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    autoCompleteList.style.display = 'none';
+    updateMarkers();
+  }
+});
+
+clearFiltersBtn.addEventListener('click', () => {
+  document.querySelectorAll('#filter-panel input[type="checkbox"]').forEach(cb => cb.checked = false);
+  selectedFilters.genre = [];
+  selectedFilters.scene = [];
+  selectedFilters.seat = [];
+  selectedFilters.course = [];
+  selectedFilters.alcohol = [];
+  keywordInput.value = '';
+  autoCompleteList.style.display = 'none';
+  updateMarkers();
+});
+
+updateMarkers();
+
+function normalizeArrayField(field) {
+  if (!field) return [];
+  return Array.isArray(field) ? field : [field];
+}
+
+function updateMarkers() {
+  const keyword = keywordInput.value.trim().toLowerCase();
+
+  markers.forEach(marker => map.removeLayer(marker));
+  markers = [];
+
+  shops.forEach(shop => {
+    const shopGenre = normalizeArrayField(shop.genre);
+    const shopScene = normalizeArrayField(shop.scene);
+    const shopSeat = normalizeArrayField(shop.seat);
+    const shopCourse = normalizeArrayField(shop.course);
+    const shopAlcohol = normalizeArrayField(shop.alcohol);
+
+    const matchesGenre = selectedFilters.genre.length === 0 || selectedFilters.genre.some(f => shopGenre.includes(f));
+    const matchesscene = selectedFilters.scene.length === 0 || selectedFilters.scene.some(f => shopScene.includes(f));
+    const matchesseat = selectedFilters.seat.length === 0 || selectedFilters.seat.some(f => shopSeat.includes(f));
+    const matchescourse = selectedFilters.course.length === 0 || selectedFilters.course.some(f => shopCourse.includes(f));
+    const matchesAlcohol = selectedFilters.alcohol.length === 0 || selectedFilters.alcohol.some(f => shopAlcohol.includes(f));
+
+    const matchesKeyword =
+      keyword === '' ||
+      shop.name.toLowerCase().includes(keyword) ||
+      shop.address.toLowerCase().includes(keyword);
+
+    if (matchesGenre && matchesscene && matchesseat && matchescourse && matchesAlcohol && matchesKeyword) {
+      const popupContent = `
+        <div style="text-align:center; max-width: 200px;">
+          <strong>${shop.name}</strong><br>
+          ${shop.address}<br>
+          <a href="${shop.url}" target="_blank" style="color: blue;">
+            お店のページを見る
+          </a>
+        </div>
+      `;
+      const icon = icons["default"];
+      const marker = L.marker([shop.lat, shop.lng], { icon })
+        .addTo(map)
+        .bindPopup(popupContent);
+      markers.push(marker);
+    }
+  });
+}
+</script>
 
 </body>
 </html>
