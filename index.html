@@ -135,6 +135,52 @@
     .filter-group.keyword-group {
       position: relative;
     }
+
+    #filter-panel {
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      z-index: 999;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 12px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 320px;
+
+      max-height: 400px; /* 最大高さを設定 */
+      overflow-y: auto;  /* 縦スクロールを許可 */
+
+      opacity: 0;
+      pointer-events: none;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+      display: block; /* グリッド解除して縦積みに */
+    }
+
+    /* フィルターグループは縦積み */
+    .filter-group {
+      margin-bottom: 16px;
+    }
+
+    /* タイトルは縦積みそのまま */
+    .filter-group h4 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* ラベル群は横並びで折り返し */
+    .filter-group label {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 12px;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+
   </style>
 </head>
 <body>
@@ -167,7 +213,10 @@
     <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
     <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
     <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
-    <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>    
+    <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
+    <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
+    <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
+    <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>    
   </div>
 
   <div class="filter-group" id="scene-options">
@@ -197,8 +246,9 @@
     <label><input type="checkbox" data-category="alcohol" value="ザ・パーフェクト黒ラベル"> ザ・パーフェクト黒ラベル</label>
     <label><input type="checkbox" data-category="alcohol" value="神泡"> 神泡</label>
     <label><input type="checkbox" data-category="alcohol" value="エクストラコールド"> エクストラコールド</label>
-        <label><input type="checkbox" data-category="alcohol" value="地ビール"> 地ビール</label>
-            <label><input type="checkbox" data-category="alcohol" value="地酒"> 地酒</label>
+    <label><input type="checkbox" data-category="alcohol" value="ヱビス"> ヱビス</label>
+    <label><input type="checkbox" data-category="alcohol" value="地ビール"> 地ビール</label>
+    <label><input type="checkbox" data-category="alcohol" value="地酒"> 地酒</label>
     <label><input type="checkbox" data-category="alcohol" value="日本酒"> 日本酒</label>
     <label><input type="checkbox" data-category="alcohol" value="焼酎"> 焼酎</label>
     <label><input type="checkbox" data-category="alcohol" value="ワイン"> ワイン</label>
@@ -235,8 +285,8 @@ const shops = [
     "lng": 135.501984,
     "genre": ["居酒屋", "海鮮"],
     "scene": ["家族・子供と", "一人で入りやすい"],
-    "seat": "貸切",
-    "course": "飲み放題",
+    "seat": ["貸切"],
+    "course": ["飲み放題"],
     "alcohol": ["ザ・パーフェクト黒ラベル", "日本酒"],
     "url": "https://tabelog.com/osaka/A2701/A270106/27090438"
   },
@@ -248,7 +298,7 @@ const shops = [
     "genre": ["焼き鳥", "居酒屋"],
     "scene": ["大人数の宴会", "デート・友人と"],
     "seat": ["個室", "貸切"],
-    "course": "飲み放題",
+    "course": ["飲み放題"],
     "alcohol": ["焼酎"],
     "url": "https://tabelog.com/hyogo/A2801/A280101/28028831"
   },
@@ -257,10 +307,10 @@ const shops = [
   "address": "兵庫県神戸市中央区北長狭通1-31-33",
   "lat": 34.692336,
   "lng": 135.19198,
-  "genre": ["立ち飲み"],
+  "genre": ["立ち飲み", "バー"],
   "scene": ["一人で入りやすい", "デート・友人と"],
-  "seat": "なし",
-  "course": "なし",
+  "seat": ["なし"],
+  "course": ["なし"],
   "alcohol": ["ザ・パーフェクト黒ラベル", "日本酒"], 
   "url": "https://tabelog.com/hyogo/A2801/A280101/28048536/"
 },
@@ -271,7 +321,7 @@ const shops = [
   "lng": 135.189986,
   "genre": ["ビアガーデン", "イタリアン"],
   "scene": ["大人数の宴会", "デート・友人と", "一人で入りやすい"],
-  "seat": "なし",
+  "seat": ["なし"],
   "course": ["飲み放題", "食べ飲み放題"],
   "alcohol": ["地ビール"],
   "url": "https://tabelog.com/hyogo/A2801/A280101/28026306/"
@@ -283,7 +333,7 @@ const shops = [
   "lng": 135.191926,
   "genre": ["居酒屋", "海鮮"],
   "scene": ["接待・大人の集まり", "デート・友人と"],
-  "seat": "なし",
+  "seat": ["なし"],
   "course": ["飲み放題", "食べ放題", "食べ飲み放題"],
   "alcohol": ["日本酒", "地酒"],
   "url": "https://tabelog.com/hyogo/A2801/A280101/28000741/"
@@ -295,12 +345,47 @@ const shops = [
   "lng": 135.17963,
   "genre": ["居酒屋", "海鮮"],
   "scene": ["接待・大人の集まり", "デート・友人と"],
-  "seat": "なし",
+  "seat": ["なし"],
   "course": ["飲み放題", "食べ放題", "食べ飲み放題"],
   "alcohol": ["日本酒", "地酒"],
   "url": "https://tabelog.com/hyogo/A2801/A280102/28067405/"
-}
-
+},
+{
+  "name": "ピンチョス 元町ヱビス",
+  "address": "兵庫県神戸市中央区元町通1-11-13",
+  "lat": 34.689827,
+  "lng": 135.188831,
+  "genre": ["ビアガーデン", "洋食"],
+  "scene": ["家族・子供と", "デート・友人と", "一人で入りやすい"],
+  "seat": ["貸切"],
+  "course": ["飲み放題", "食べ放題", "食べ飲み放題"],
+  "alcohol": ["ヱビス"],
+  "url": "https://tabelog.com/hyogo/A2801/A280102/28001953/"
+},
+{
+  "name": "エスプリ 三宮6Ｆ店",
+  "address": "兵庫県神戸市中央区北長狭通1-2-18 三宮OSビル 6F",
+  "lat": 34.694154,
+  "lng": 135.193281,
+  "genre": ["バー", "居酒屋"],
+  "scene": ["大人数の宴会", "デート・友人と", "一人で入りやすい"],
+  "seat": ["貸切"],
+  "course": ["飲み放題"],
+  "alcohol": ["カクテル"],
+  "url": "https://tabelog.com/hyogo/A2801/A280101/28001618/"
+},
+{
+  "name": "明石焼肉 MORISHIN 明石駅前店",
+  "address": "兵庫県明石市大明石町1-6-1 パピオス明石 1F",
+  "lat": 34.647975,
+  "lng": 134.992024,
+  "genre": ["焼肉"],
+  "scene": ["家族・子供と", "デート・友人と"],
+  "seat": ["貸切"],
+  "course": ["飲み放題"],
+  "alcohol": ["神泡"],
+  "url": "https://tabelog.com/hyogo/A2804/A280401/28038708/"
+},
 ];
 
 const selectedFilters = {
