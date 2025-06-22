@@ -181,6 +181,39 @@
       user-select: none;
     }
 
+    #shop-list {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 250px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.95);
+      z-index: 998;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .shop-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      width: 200px;
+      box-sizing: border-box;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .shop-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
   </style>
 </head>
 <body>
@@ -254,6 +287,7 @@
     <label><input type="checkbox" data-category="alcohol" value="日本酒"> 日本酒</label>
     <label><input type="checkbox" data-category="alcohol" value="焼酎"> 焼酎</label>
     <label><input type="checkbox" data-category="alcohol" value="ワイン"> ワイン</label>
+    <label><input type="checkbox" data-category="alcohol" value="カクテル"> カクテル</label>
   </div>
 
 
@@ -267,6 +301,7 @@
 </div>
 
 <div id="map"></div>
+<div id="shop-list"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
@@ -496,6 +531,42 @@ const shops = [
   "alcohol": ["なし"],
   "url": "https://tabelog.com/okayama/A3301/A330101/33018416/"
 },
+{
+  "name": "クシヤキとワイン CASSIWA 東通り店",
+  "address": "大阪府大阪市北区堂山町6-12 オーパビル 1F",
+  "lat": 34.70314,
+  "lng": 135.502803,
+  "genre": ["居酒屋","焼き鳥","バー"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": ["個室","貸切"],
+  "course": ["飲み放題"],
+  "alcohol": ["ワイン","カクテル"],
+  "url": "https://tabelog.com/osaka/A2701/A270101/27090285/"
+},
+{
+  "name": "炭火の王様",
+  "address": "兵庫県尼崎市潮江1-16-1 アミング潮江ウエスト",
+  "lat": 34.734891,
+  "lng": 135.432882,
+  "genre": ["居酒屋"],
+  "scene": ["接待・大人の集まり", "デート・友人と"],
+  "seat": ["貸切"],
+  "course": ["飲み放題"],
+  "alcohol": ["日本酒"],
+  "url": "https://tabelog.com/hyogo/A2803/A280304/28063241/"
+},
+{
+  "name": "ザ・バージェイダブリューハート",
+  "address": "兵庫県神戸市中央区京町25 ORIENTAL HOTEL　１７F",
+  "lat": 34.687586,
+  "lng": 135.192942,
+  "genre": ["バー","イタリアン"],
+  "scene": ["デート・友人と"],
+  "seat": ["貸切"],
+  "course": ["飲み放題"],
+  "alcohol": ["日本酒","焼酎","ワイン","カクテル"],
+  "url": "https://tabelog.com/hyogo/A2801/A280102/28024001/"
+},
 ];
 
 const selectedFilters = {
@@ -612,12 +683,17 @@ function normalizeArrayField(field) {
 }
 
 function updateMarkers() {
+  const shopListDiv = document.getElementById('shop-list');
+  shopListDiv.innerHTML = ''; // 検索結果リストをリセット
+
   const keyword = keywordInput.value.trim().toLowerCase();
 
   markers.forEach(marker => map.removeLayer(marker));
   markers = [];
+  
+  const sortedShops = [...shops].sort((a, b) => a.name.localeCompare(b.name, 'ja'));
 
-  shops.forEach(shop => {
+  sortedShops.forEach(shop => {
     const shopGenre = normalizeArrayField(shop.genre);
     const shopScene = normalizeArrayField(shop.scene);
     const shopSeat = normalizeArrayField(shop.seat);
@@ -650,6 +726,22 @@ function updateMarkers() {
         .addTo(map)
         .bindPopup(popupContent);
       markers.push(marker);
+
+      // カード作成
+      const card = document.createElement('div');
+      card.className = 'shop-card';
+      card.innerHTML = `
+        <strong>${shop.name}</strong><br>
+        <span style="font-size:13px;">${shop.address}</span><br>
+        <a href="${shop.url}" target="_blank">詳細を見る</a>
+      `;
+      card.addEventListener('click', () => {
+        map.setView([shop.lat, shop.lng], 17);
+        marker.openPopup();
+      });
+
+      shopListDiv.appendChild(card);
+
     }
   });
 }
