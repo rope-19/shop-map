@@ -108,6 +108,7 @@
     #filter-panel {
       position: absolute;
       top: 60px;
+      bottom: 190px; /* ← これが追加ポイント！shop-listと重ならない高さ */
       right: 10px;
       z-index: 999;
       background: rgba(255, 255, 255, 0.95);
@@ -116,7 +117,7 @@
       width: 90%;
       max-width: 320px;
       /* ↓↓↓ 高さ調整：下のカードと重ならないようにする ↓↓↓ */
-      max-height: calc(100vh - 250px - 80px); /* 250px = shop-listの高さ */
+      max-height: calc(100vh - 250px); /* 250px = shop-listの高さ */
       overflow-y: auto;  /* 縦スクロールを許可 */
 
       opacity: 0;
@@ -184,6 +185,41 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     
+    #map-container {
+      position: relative;
+      height: calc(100vh - 190px); /* 下のshop-listを避ける */
+    }
+
+    #map {
+      width: 100%;
+      height: 100%; /* 親要素に合わせる */
+    }
+
+    @media (max-width: 600px) {
+    #filter-panel {
+      left: 10px;
+      right: 10px;
+      width: auto;
+      max-width: none;
+      height: calc(100vh - 220px); /* 高さを調整してshop-listを避ける */
+    }
+
+    #filter-toggle {
+      right: 10px;
+      top: 10px;
+    }
+
+    #shop-list {
+      font-size: 13px;
+    }
+
+    .shop-card {
+      width: calc(100% - 20px); /* モバイルで見やすい幅に */
+      max-width: 320px;
+      margin: 0 auto;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -208,69 +244,72 @@
   <i class="fas fa-sliders-h"></i>
 </div>
 
-<div id="filter-panel">
-  <div class="filter-group" id="genre-options">
-    <h4>ジャンル</h4>
-    <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
-    <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
-    <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
-    <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
-    <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
-    <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
-    <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
-    <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
-    <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>
-    <label><input type="checkbox" data-category="genre" value="中華料理"> 中華料理</label>   
+<div id="map-container">
+  <div id="filter-panel">
+    <div class="filter-group" id="genre-options">
+      <h4>ジャンル</h4>
+      <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
+      <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
+      <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
+      <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
+      <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
+      <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
+      <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
+      <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
+      <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>
+      <label><input type="checkbox" data-category="genre" value="中華料理"> 中華料理</label>
+      <label><input type="checkbox" data-category="genre" value="鍋"> 鍋</label>   
+    </div>
+
+    <div class="filter-group" id="scene-options">
+      <h4>利用シーン</h4>
+      <label><input type="checkbox" data-category="scene" value="大人数の宴会"> 大人数の宴会</label>
+      <label><input type="checkbox" data-category="scene" value="デート・友人と"> デート・友人と</label>
+      <label><input type="checkbox" data-category="scene" value="家族・子供と"> 家族・子供と</label>
+      <label><input type="checkbox" data-category="scene" value="一人で入りやすい"> 一人で入りやすい</label>
+      <label><input type="checkbox" data-category="scene" value="接待・大人の集まり"> 接待・大人の集まり</label>
+      <label><input type="checkbox" data-category="scene" value="女子会"> 女子会</label>
+    </div>
+
+    <div class="filter-group" id="seat-options">
+      <h4>席・設備</h4>
+      <label><input type="checkbox" data-category="seat" value="貸切"> 貸切</label>
+      <label><input type="checkbox" data-category="seat" value="個室"> 個室</label>
+    </div>
+
+    <div class="filter-group" id="course-options">
+      <h4>コース</h4>
+      <label><input type="checkbox" data-category="course" value="飲み放題"> 飲み放題</label>
+      <label><input type="checkbox" data-category="course" value="食べ放題"> 食べ放題</label>
+      <label><input type="checkbox" data-category="course" value="食べ飲み放題"> 食べ飲み放題</label>
+    </div>
+
+    <div class="filter-group" id="alcohol-options">
+      <h4>ドリンク</h4>
+      <label><input type="checkbox" data-category="alcohol" value="ザ・パーフェクト黒ラベル"> ザ・パーフェクト黒ラベル</label>
+      <label><input type="checkbox" data-category="alcohol" value="神泡"> 神泡</label>
+      <label><input type="checkbox" data-category="alcohol" value="エクストラコールド"> エクストラコールド</label>
+      <label><input type="checkbox" data-category="alcohol" value="ヱビス"> ヱビス</label>
+      <label><input type="checkbox" data-category="alcohol" value="地ビール"> 地ビール</label>
+      <label><input type="checkbox" data-category="alcohol" value="地酒"> 地酒</label>
+      <label><input type="checkbox" data-category="alcohol" value="日本酒"> 日本酒</label>
+      <label><input type="checkbox" data-category="alcohol" value="焼酎"> 焼酎</label>
+      <label><input type="checkbox" data-category="alcohol" value="ワイン"> ワイン</label>
+      <label><input type="checkbox" data-category="alcohol" value="カクテル"> カクテル</label>
+    </div>
+
+
+    <div class="filter-group keyword-group">
+      <h4>キーワード</h4>
+      <input type="text" id="keyword" placeholder="店名・住所" autocomplete="off" />
+      <ul id="autocomplete-list" style="display:none;"></ul>
+    </div>
+
+    <button id="clear-filters"><i class="fas fa-undo"></i>すべて解除</button>
   </div>
 
-  <div class="filter-group" id="scene-options">
-    <h4>利用シーン</h4>
-    <label><input type="checkbox" data-category="scene" value="大人数の宴会"> 大人数の宴会</label>
-    <label><input type="checkbox" data-category="scene" value="デート・友人と"> デート・友人と</label>
-    <label><input type="checkbox" data-category="scene" value="家族・子供と"> 家族・子供と</label>
-    <label><input type="checkbox" data-category="scene" value="一人で入りやすい"> 一人で入りやすい</label>
-    <label><input type="checkbox" data-category="scene" value="接待・大人の集まり"> 接待・大人の集まり</label>
-    <label><input type="checkbox" data-category="scene" value="女子会"> 女子会</label>
-  </div>
-
-  <div class="filter-group" id="seat-options">
-    <h4>席・設備</h4>
-    <label><input type="checkbox" data-category="seat" value="貸切"> 貸切</label>
-    <label><input type="checkbox" data-category="seat" value="個室"> 個室</label>
-  </div>
-
-  <div class="filter-group" id="course-options">
-    <h4>コース</h4>
-    <label><input type="checkbox" data-category="course" value="飲み放題"> 飲み放題</label>
-    <label><input type="checkbox" data-category="course" value="食べ放題"> 食べ放題</label>
-    <label><input type="checkbox" data-category="course" value="食べ飲み放題"> 食べ飲み放題</label>
-  </div>
-
-  <div class="filter-group" id="alcohol-options">
-    <h4>ドリンク</h4>
-    <label><input type="checkbox" data-category="alcohol" value="ザ・パーフェクト黒ラベル"> ザ・パーフェクト黒ラベル</label>
-    <label><input type="checkbox" data-category="alcohol" value="神泡"> 神泡</label>
-    <label><input type="checkbox" data-category="alcohol" value="エクストラコールド"> エクストラコールド</label>
-    <label><input type="checkbox" data-category="alcohol" value="ヱビス"> ヱビス</label>
-    <label><input type="checkbox" data-category="alcohol" value="地ビール"> 地ビール</label>
-    <label><input type="checkbox" data-category="alcohol" value="地酒"> 地酒</label>
-    <label><input type="checkbox" data-category="alcohol" value="日本酒"> 日本酒</label>
-    <label><input type="checkbox" data-category="alcohol" value="焼酎"> 焼酎</label>
-    <label><input type="checkbox" data-category="alcohol" value="ワイン"> ワイン</label>
-    <label><input type="checkbox" data-category="alcohol" value="カクテル"> カクテル</label>
-  </div>
-
-
-  <div class="filter-group keyword-group">
-    <h4>キーワード</h4>
-    <input type="text" id="keyword" placeholder="店名・住所" autocomplete="off" />
-    <ul id="autocomplete-list" style="display:none;"></ul>
-  </div>
-
-  <button id="clear-filters"><i class="fas fa-undo"></i>すべて解除</button>
+  <div id="map"></div>
 </div>
-
-<div id="map"></div>
 <div id="shop-list"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -536,6 +575,18 @@ const shops = [
   "course": ["飲み放題"],
   "alcohol": ["日本酒","焼酎","ワイン","カクテル"],
   "url": "https://tabelog.com/hyogo/A2801/A280102/28024001/"
+},
+{
+  "name": "鳥料理 かね正",
+  "address": "兵庫県神戸市兵庫区西多聞通2-2-6",
+  "lat": 34.678635,
+  "lng": 135.172023,
+  "genre": ["焼き鳥","鍋","居酒屋"],
+  "scene": ["デート・友人と","家族・子供と"],
+  "seat": ["貸切","個室"],
+  "course": ["飲み放題"],
+  "alcohol": ["日本酒","焼酎","ワイン"],
+  "url": "https://tabelog.com/hyogo/A2801/A280102/28010590/"
 },
 ];
 
