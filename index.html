@@ -195,6 +195,88 @@
       height: 100%; /* 親要素に合わせる */
     }
 
+    .filter-children {
+        margin-left: 20px;
+        display: none;
+    }
+
+    .filter-parent.open .filter-children {
+        display: block;
+    }
+
+    .parent-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    }
+
+    .toggle-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+    }
+
+    .filter-parent.open .toggle-icon {
+    transform: rotate(90deg);
+    }
+
+    .toggle-icon::before {
+    content: "▶";
+    display: inline-block;
+    font-size: 0.9em;
+    line-height: 1em;
+    }
+
+    .parent-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    }
+
+    /* モーダル背景 */
+    #filter-modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 998;
+      display: none;
+    }
+
+    /* モーダル本体 */
+    #filter-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 92%;
+      max-height: 80%;
+      background: white;
+      border-radius: 12px;
+      overflow-y: auto;
+      z-index: 999;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      display: none;
+    }
+
+    #filter-modal.show,
+    #filter-modal-overlay.show {
+      display: block;
+    }
+
+    /* スマホ専用にモーダルを有効化 */
+    @media (max-width: 600px) {
+      #filter-panel {
+        display: none !important;
+      }
+    }
+
     @media (max-width: 600px) {
     #filter-panel {
       left: 10px;
@@ -248,55 +330,165 @@
   <div id="filter-panel">
     <div class="filter-group" id="genre-options">
       <h4>ジャンル</h4>
-      <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
-      <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
-      <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
-      <label><input type="checkbox" data-category="genre" value="ビアホール"> ビアホール</label>
-      <label><input type="checkbox" data-category="genre" value="ダイニングバー"> ダイニングバー</label>
-      <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
-      <label><input type="checkbox" data-category="genre" value="バル"> バル</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="izakaya">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="izakaya"> 
+                居酒屋
+            </label>
+        </div>
+        <div class="filter-children" data-group="izakaya">
+            <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
+            <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
+            <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
+            <label><input type="checkbox" data-category="genre" value="ビアホール"> ビアホール</label>
+            <label><input type="checkbox" data-category="genre" value="ダイニングバー"> ダイニングバー</label>
+            <label><input type="checkbox" data-category="genre" value="バル"> バル</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="ビアバー"> ビアバー</label>
-      <label><input type="checkbox" data-category="genre" value="ワインバー"> ワインバー</label>
-      <label><input type="checkbox" data-category="genre" value="日本酒バー"> 日本酒バー</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="bar">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="bar"> 
+                バー
+            </label>
+        </div>
+        <div class="filter-children" data-group="bar">
+            <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
+            <label><input type="checkbox" data-category="genre" value="ビアバー"> ビアバー</label>
+            <label><input type="checkbox" data-category="genre" value="ワインバー"> ワインバー</label>
+            <label><input type="checkbox" data-category="genre" value="日本酒バー"> 日本酒バー</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
-      <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
-      <label><input type="checkbox" data-category="genre" value="鳥料理"> 鳥料理</label>
-      <label><input type="checkbox" data-category="genre" value="串揚げ"> 串揚げ</label> 
-      <label><input type="checkbox" data-category="genre" value="沖縄料理"> 沖縄料理</label>      
-      <label><input type="checkbox" data-category="genre" value="日本料理"> 日本料理</label>
-      <label><input type="checkbox" data-category="genre" value="郷土料理"> 郷土料理</label>
-      <label><input type="checkbox" data-category="genre" value="釜飯"> 釜飯</label>
-      <label><input type="checkbox" data-category="genre" value="すき焼き"> すき焼き</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="wasyoku">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="wasyoku">
+                和食
+            </label>
+        </div>
+        <div class="filter-children" data-group="wasyoku">
+            <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
+            <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
+            <label><input type="checkbox" data-category="genre" value="鳥料理"> 鳥料理</label>
+            <label><input type="checkbox" data-category="genre" value="串揚げ"> 串揚げ</label> 
+            <label><input type="checkbox" data-category="genre" value="沖縄料理"> 沖縄料理</label>      
+            <label><input type="checkbox" data-category="genre" value="日本料理"> 日本料理</label>
+            <label><input type="checkbox" data-category="genre" value="郷土料理"> 郷土料理</label>
+            <label><input type="checkbox" data-category="genre" value="釜飯"> 釜飯</label>
+            <label><input type="checkbox" data-category="genre" value="すき焼き"> すき焼き</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="鍋"> 鍋</label>
-      <label><input type="checkbox" data-category="genre" value="ちゃんこ鍋"> ちゃんこ鍋</label>      
-      <label><input type="checkbox" data-category="genre" value="水炊き"> 水炊き</label>
-      <label><input type="checkbox" data-category="genre" value="もつ鍋"> もつ鍋</label>
-      <label><input type="checkbox" data-category="genre" value="しゃぶしゃぶ"> しゃぶしゃぶ</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="nabe">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="nabe">
+                鍋
+            </label>
+        </div>
+        <div class="filter-children" data-group="nabe">
+            <label><input type="checkbox" data-category="genre" value="鍋"> 鍋</label>
+            <label><input type="checkbox" data-category="genre" value="ちゃんこ鍋"> ちゃんこ鍋</label>      
+            <label><input type="checkbox" data-category="genre" value="水炊き"> 水炊き</label>
+            <label><input type="checkbox" data-category="genre" value="もつ鍋"> もつ鍋</label>
+            <label><input type="checkbox" data-category="genre" value="しゃぶしゃぶ"> しゃぶしゃぶ</label>                   
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>
-      <label><input type="checkbox" data-category="genre" value="ホルモン"> ホルモン</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="yakiniku">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="yakiniku"> 
+                焼肉・ホルモン
+            </label>
+        </div>
+        <div class="filter-children" data-group="yakiniku">
+            <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>
+            <label><input type="checkbox" data-category="genre" value="ホルモン"> ホルモン</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
-      <label><input type="checkbox" data-category="genre" value="ステーキ"> ステーキ</label>
-      <label><input type="checkbox" data-category="genre" value="ハンバーグ"> ハンバーグ</label>
-      <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
-      <label><input type="checkbox" data-category="genre" value="スペイン料理"> スペイン料理</label>
-      <label><input type="checkbox" data-category="genre" value="ヨーロッパ料理"> ヨーロッパ料理</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="youshoku">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="youshoku">
+                洋食・西洋料理
+            </label>
+        </div>
+        <div class="filter-children" data-group="youshoku">
+            <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
+            <label><input type="checkbox" data-category="genre" value="ステーキ"> ステーキ</label>
+            <label><input type="checkbox" data-category="genre" value="ハンバーグ"> ハンバーグ</label>
+            <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
+            <label><input type="checkbox" data-category="genre" value="スペイン料理"> スペイン料理</label>
+            <label><input type="checkbox" data-category="genre" value="ヨーロッパ料理"> ヨーロッパ料理</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="中華料理"> 中華料理</label>
-      <label><input type="checkbox" data-category="genre" value="四川料理"> 四川料理</label>
-      <label><input type="checkbox" data-category="genre" value="餃子"> 餃子</label>
-      <label><input type="checkbox" data-category="genre" value="飲茶・点心"> 飲茶・点心</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="chaina">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="chaina">
+                中華料理
+            </label>
+        </div>
+        <div class="filter-children" data-group="chaina">
+            <label><input type="checkbox" data-category="genre" value="中華料理"> 中華料理</label>
+            <label><input type="checkbox" data-category="genre" value="四川料理"> 四川料理</label>
+            <label><input type="checkbox" data-category="genre" value="餃子"> 餃子</label>
+            <label><input type="checkbox" data-category="genre" value="飲茶・点心"> 飲茶・点心</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="創作料理"> 創作料理</label> 
-      <label><input type="checkbox" data-category="genre" value="BBQ"> BBQ</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="other">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="other">
+                その他レストラン
+            </label>
+        </div>
+        <div class="filter-children" data-group="other">
+            <label><input type="checkbox" data-category="genre" value="創作料理"> 創作料理</label> 
+            <label><input type="checkbox" data-category="genre" value="BBQ"> BBQ</label>
+        </div>
+      </div>
 
-      <label><input type="checkbox" data-category="genre" value="ソフトクリーム"> ソフトクリーム</label>
-      
-      <label><input type="checkbox" data-category="genre" value="カフェ"> カフェ</label>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="cafe">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="cafe">
+                カフェ・喫茶店
+            </label>
+        </div>
+        <div class="filter-children" data-group="cafe">
+            <label><input type="checkbox" data-category="genre" value="カフェ"> カフェ</label>      
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="sweet">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="sweet">
+                スイーツ
+            </label>
+        </div>
+        <div class="filter-children" data-group="sweet">
+          <label><input type="checkbox" data-category="genre" value="ソフトクリーム"> ソフトクリーム</label>
+        </div>
+      </div>        
     </div>
 
     <div class="filter-group" id="scene-options">
@@ -945,14 +1137,20 @@ const icons = {
 };
 
 filterToggle.addEventListener('click', () => {
-  if (filterPanel.style.maxHeight && filterPanel.style.maxHeight !== '0px') {
-    filterPanel.style.maxHeight = '0';
-    filterPanel.style.opacity = '0';
-    filterPanel.style.pointerEvents = 'none';
+  const isMobile = window.innerWidth <= 600;
+  if (isMobile) {
+    document.getElementById("filter-modal").classList.add("show");
+    document.getElementById("filter-modal-overlay").classList.add("show");
   } else {
-    filterPanel.style.maxHeight = filterPanel.scrollHeight + 'px';
-    filterPanel.style.opacity = '1';
-    filterPanel.style.pointerEvents = 'auto';
+    if (filterPanel.style.maxHeight && filterPanel.style.maxHeight !== '0px') {
+      filterPanel.style.maxHeight = '0';
+      filterPanel.style.opacity = '0';
+      filterPanel.style.pointerEvents = 'none';
+    } else {
+      filterPanel.style.maxHeight = filterPanel.scrollHeight + 'px';
+      filterPanel.style.opacity = '1';
+      filterPanel.style.pointerEvents = 'auto';
+    }
   }
 });
 
@@ -1025,6 +1223,26 @@ clearFiltersBtn.addEventListener('click', () => {
 
 updateMarkers();
 
+// 親チェックボックスですべてON/OFF
+// ▼▼▼ 親項目クリックで折りたたみ＋一括選択 ▼▼▼
+document.querySelectorAll('.parent-toggle').forEach(toggle => {
+  const group = toggle.dataset.group;
+  const parent = toggle.closest('.filter-parent');
+
+  toggle.addEventListener('click', (e) => {
+    parent.classList.toggle('open');
+  });
+
+  // 親チェックで子も一括選択
+  const parentCheckbox = toggle.querySelector('input.parent-checkbox');
+  parentCheckbox.addEventListener('change', () => {
+    const children = document.querySelectorAll(`.filter-children[data-group="${group}"] input[type="checkbox"]`);
+    children.forEach(child => child.checked = parentCheckbox.checked);
+    updateMarkers(); // 既存の絞り込みを反映
+  });
+});
+
+
 function normalizeArrayField(field) {
   if (!field) return [];
   return Array.isArray(field) ? field : [field];
@@ -1093,7 +1311,232 @@ function updateMarkers() {
     }
   });
 }
+
+document.getElementById("filter-modal-overlay").addEventListener("click", () => {
+  document.getElementById("filter-modal").classList.remove("show");
+  document.getElementById("filter-modal-overlay").classList.remove("show");
+});
+
 </script>
+
+<!-- モーダルの背景 -->
+<div id="filter-modal-overlay"></div>
+
+<!-- モーダル本体（スマホ用） -->
+<div id="filter-modal">
+  <div id="filter-modal-content">
+
+    <div class="filter-group" id="genre-options">
+      <h4>ジャンル</h4>
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="izakaya">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="izakaya"> 
+                居酒屋
+            </label>
+        </div>
+        <div class="filter-children" data-group="izakaya">
+            <label><input type="checkbox" data-category="genre" value="居酒屋"> 居酒屋</label>
+            <label><input type="checkbox" data-category="genre" value="立ち飲み"> 立ち飲み</label>
+            <label><input type="checkbox" data-category="genre" value="ビアガーデン"> ビアガーデン</label>
+            <label><input type="checkbox" data-category="genre" value="ビアホール"> ビアホール</label>
+            <label><input type="checkbox" data-category="genre" value="ダイニングバー"> ダイニングバー</label>
+            <label><input type="checkbox" data-category="genre" value="バル"> バル</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="bar">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="bar"> 
+                バー
+            </label>
+        </div>
+        <div class="filter-children" data-group="bar">
+            <label><input type="checkbox" data-category="genre" value="バー"> バー</label>
+            <label><input type="checkbox" data-category="genre" value="ビアバー"> ビアバー</label>
+            <label><input type="checkbox" data-category="genre" value="ワインバー"> ワインバー</label>
+            <label><input type="checkbox" data-category="genre" value="日本酒バー"> 日本酒バー</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="wasyoku">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="wasyoku">
+                和食
+            </label>
+        </div>
+        <div class="filter-children" data-group="wasyoku">
+            <label><input type="checkbox" data-category="genre" value="焼き鳥"> 焼き鳥</label>
+            <label><input type="checkbox" data-category="genre" value="海鮮"> 海鮮</label>
+            <label><input type="checkbox" data-category="genre" value="鳥料理"> 鳥料理</label>
+            <label><input type="checkbox" data-category="genre" value="串揚げ"> 串揚げ</label> 
+            <label><input type="checkbox" data-category="genre" value="沖縄料理"> 沖縄料理</label>      
+            <label><input type="checkbox" data-category="genre" value="日本料理"> 日本料理</label>
+            <label><input type="checkbox" data-category="genre" value="郷土料理"> 郷土料理</label>
+            <label><input type="checkbox" data-category="genre" value="釜飯"> 釜飯</label>
+            <label><input type="checkbox" data-category="genre" value="すき焼き"> すき焼き</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="nabe">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="nabe">
+                鍋
+            </label>
+        </div>
+        <div class="filter-children" data-group="nabe">
+            <label><input type="checkbox" data-category="genre" value="鍋"> 鍋</label>
+            <label><input type="checkbox" data-category="genre" value="ちゃんこ鍋"> ちゃんこ鍋</label>      
+            <label><input type="checkbox" data-category="genre" value="水炊き"> 水炊き</label>
+            <label><input type="checkbox" data-category="genre" value="もつ鍋"> もつ鍋</label>
+            <label><input type="checkbox" data-category="genre" value="しゃぶしゃぶ"> しゃぶしゃぶ</label>                   
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="yakiniku">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="yakiniku"> 
+                焼肉・ホルモン
+            </label>
+        </div>
+        <div class="filter-children" data-group="yakiniku">
+            <label><input type="checkbox" data-category="genre" value="焼肉"> 焼肉</label>
+            <label><input type="checkbox" data-category="genre" value="ホルモン"> ホルモン</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="youshoku">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="youshoku">
+                洋食・西洋料理
+            </label>
+        </div>
+        <div class="filter-children" data-group="youshoku">
+            <label><input type="checkbox" data-category="genre" value="洋食"> 洋食</label>
+            <label><input type="checkbox" data-category="genre" value="ステーキ"> ステーキ</label>
+            <label><input type="checkbox" data-category="genre" value="ハンバーグ"> ハンバーグ</label>
+            <label><input type="checkbox" data-category="genre" value="イタリアン"> イタリアン</label>
+            <label><input type="checkbox" data-category="genre" value="スペイン料理"> スペイン料理</label>
+            <label><input type="checkbox" data-category="genre" value="ヨーロッパ料理"> ヨーロッパ料理</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="chaina">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="chaina">
+                中華料理
+            </label>
+        </div>
+        <div class="filter-children" data-group="chaina">
+            <label><input type="checkbox" data-category="genre" value="中華料理"> 中華料理</label>
+            <label><input type="checkbox" data-category="genre" value="四川料理"> 四川料理</label>
+            <label><input type="checkbox" data-category="genre" value="餃子"> 餃子</label>
+            <label><input type="checkbox" data-category="genre" value="飲茶・点心"> 飲茶・点心</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="other">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="other">
+                その他レストラン
+            </label>
+        </div>
+        <div class="filter-children" data-group="other">
+            <label><input type="checkbox" data-category="genre" value="創作料理"> 創作料理</label> 
+            <label><input type="checkbox" data-category="genre" value="BBQ"> BBQ</label>
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="cafe">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="cafe">
+                カフェ・喫茶店
+            </label>
+        </div>
+        <div class="filter-children" data-group="cafe">
+            <label><input type="checkbox" data-category="genre" value="カフェ"> カフェ</label>      
+        </div>
+      </div>
+
+      <div class="filter-parent">
+        <div class="parent-toggle" data-group="sweet">
+            <span class="toggle-icon"></span>
+            <label class="parent-label">
+                <input type="checkbox" class="parent-checkbox" data-group="sweet">
+                スイーツ
+            </label>
+        </div>
+        <div class="filter-children" data-group="sweet">
+          <label><input type="checkbox" data-category="genre" value="ソフトクリーム"> ソフトクリーム</label>
+        </div>
+      </div>        
+    </div>
+
+    <div class="filter-group" id="scene-options">
+      <h4>利用シーン</h4>
+      <label><input type="checkbox" data-category="scene" value="大人数の宴会"> 大人数の宴会</label>
+      <label><input type="checkbox" data-category="scene" value="デート"> デート</label>
+      <label><input type="checkbox" data-category="scene" value="知人・友人と"> 知人・友人と</label>
+      <label><input type="checkbox" data-category="scene" value="家族・子供と"> 家族・子供と</label>
+      <label><input type="checkbox" data-category="scene" value="一人で入りやすい"> 一人で入りやすい</label>
+      <label><input type="checkbox" data-category="scene" value="接待"> 接待</label>
+      <label><input type="checkbox" data-category="scene" value="女子会"> 女子会</label>
+    </div>
+
+    <div class="filter-group" id="seat-options">
+      <h4>席・設備</h4>
+      <label><input type="checkbox" data-category="seat" value="貸切"> 貸切</label>
+      <label><input type="checkbox" data-category="seat" value="個室"> 個室</label>
+    </div>
+
+    <div class="filter-group" id="course-options">
+      <h4>コース</h4>
+      <label><input type="checkbox" data-category="course" value="飲み放題"> 飲み放題</label>
+      <label><input type="checkbox" data-category="course" value="食べ放題"> 食べ放題</label>
+      <label><input type="checkbox" data-category="course" value="食べ飲み放題"> 食べ飲み放題</label>
+    </div>
+
+    <div class="filter-group" id="alcohol-options">
+      <h4>こだわり</h4>
+      <label><input type="checkbox" data-category="alcohol" value="ザ・パーフェクト黒ラベル"> ザ・パーフェクト黒ラベル</label>
+      <label><input type="checkbox" data-category="alcohol" value="神泡"> 神泡</label>
+      <label><input type="checkbox" data-category="alcohol" value="エクストラコールド"> エクストラコールド</label>
+      <label><input type="checkbox" data-category="alcohol" value="ヱビス"> ヱビス</label>
+      <label><input type="checkbox" data-category="alcohol" value="地ビール"> 地ビール</label>
+      <label><input type="checkbox" data-category="alcohol" value="地酒"> 地酒</label>
+      <label><input type="checkbox" data-category="alcohol" value="日本酒"> 日本酒</label>
+      <label><input type="checkbox" data-category="alcohol" value="焼酎"> 焼酎</label>
+      <label><input type="checkbox" data-category="alcohol" value="ワイン"> ワイン</label>
+      <label><input type="checkbox" data-category="alcohol" value="カクテル"> カクテル</label>
+    </div>
+
+
+    <div class="filter-group keyword-group">
+      <h4>キーワード</h4>
+      <input type="text" id="keyword" placeholder="店名・住所" autocomplete="off" />
+      <ul id="autocomplete-list" style="display:none;"></ul>
+    </div>
+
+    <button id="clear-filters"><i class="fas fa-undo"></i>すべて解除</button>
+  </div>
+</div>
 
 </body>
 </html>
