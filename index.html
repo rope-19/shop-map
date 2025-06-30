@@ -206,7 +206,7 @@
 
     .parent-toggle {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 6px;
     cursor: pointer;
     user-select: none;
@@ -214,11 +214,13 @@
     }
 
     .toggle-icon {
-    display: inline-block;
+    /* display: inline-block;
     width: 1em;
     height: 1em;
-    transform: rotate(0deg);
-    transition: transform 0.3s;
+    transform: rotate(0deg); */
+    transition: transform 0.3s ease;
+    font-size: 0.9em;
+    margin-top: 5px; /* ← 高さ調整 */
     }
 
     .filter-parent.open .toggle-icon {
@@ -332,7 +334,7 @@
       <h4>ジャンル</h4>
       <div class="filter-parent">
         <div class="parent-toggle" data-group="izakaya">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="izakaya"> 
                 居酒屋
@@ -350,7 +352,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="bar">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="bar"> 
                 バー
@@ -366,7 +368,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="wasyoku">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="wasyoku">
                 和食
@@ -387,7 +389,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="nabe">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="nabe">
                 鍋
@@ -404,7 +406,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="yakiniku">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="yakiniku"> 
                 焼肉・ホルモン
@@ -418,7 +420,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="youshoku">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="youshoku">
                 洋食・西洋料理
@@ -436,7 +438,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="chaina">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="chaina">
                 中華料理
@@ -452,7 +454,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="other">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="other">
                 その他レストラン
@@ -466,7 +468,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="cafe">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="cafe">
                 カフェ・喫茶店
@@ -479,7 +481,7 @@
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="sweet">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="sweet">
                 スイーツ
@@ -1330,7 +1332,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
       <h4>ジャンル</h4>
       <div class="filter-parent">
         <div class="parent-toggle" data-group="izakaya">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="izakaya"> 
                 居酒屋
@@ -1348,7 +1350,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="bar">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="bar"> 
                 バー
@@ -1364,7 +1366,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="wasyoku">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="wasyoku">
                 和食
@@ -1385,7 +1387,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="nabe">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="nabe">
                 鍋
@@ -1402,7 +1404,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="yakiniku">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="yakiniku"> 
                 焼肉・ホルモン
@@ -1416,7 +1418,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="youshoku">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="youshoku">
                 洋食・西洋料理
@@ -1434,7 +1436,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="chaina">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="chaina">
                 中華料理
@@ -1450,7 +1452,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="other">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="other">
                 その他レストラン
@@ -1464,7 +1466,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="cafe">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="cafe">
                 カフェ・喫茶店
@@ -1477,7 +1479,7 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
 
       <div class="filter-parent">
         <div class="parent-toggle" data-group="sweet">
-            <span class="toggle-icon"></span>
+            <i class="fas fa-chevron-right toggle-icon"></i>
             <label class="parent-label">
                 <input type="checkbox" class="parent-checkbox" data-group="sweet">
                 スイーツ
