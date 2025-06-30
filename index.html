@@ -694,7 +694,7 @@ const shops = [
     "address": "兵庫県神戸市中央区下山手通4-13-5 三木ビル",
     "lat": 34.692594,
     "lng": 135.18581,
-    "genre": ["中華料理", ,"四川料理","居酒屋"],
+    "genre": ["中華料理","四川料理","居酒屋"],
     "scene": ["家族・子供と", "一人で入りやすい", "知人・友人と"],
     "seat": ["個室","貸切"],
     "course": ["なし"],
@@ -1125,6 +1125,13 @@ const filterPanel = document.getElementById('filter-panel');
 const clearFiltersBtn = document.getElementById('clear-filters');
 const autoCompleteList = document.getElementById('autocomplete-list');
 
+clearFiltersBtn.addEventListener('click', () => {
+  document.querySelectorAll('#filter-panel input[type="checkbox"]').forEach(cb => cb.checked = false);
+  keywordInput.value = '';
+  autoCompleteList.style.display = 'none';
+  updateSelectedFiltersAndRefresh();
+});
+
 // カスタムアイコンをジャンルごとに設定
 const icons = {
   default: L.icon({
@@ -1156,16 +1163,10 @@ filterToggle.addEventListener('click', () => {
   }
 });
 
-document.querySelectorAll('#filter-panel input[type="checkbox"]').forEach(checkbox => {
-  checkbox.addEventListener('change', () => {
-    selectedFilters.genre = Array.from(document.querySelectorAll('input[data-category="genre"]:checked')).map(cb => cb.value);
-    selectedFilters.scene = Array.from(document.querySelectorAll('input[data-category="scene"]:checked')).map(cb => cb.value);
-    selectedFilters.seat = Array.from(document.querySelectorAll('input[data-category="seat"]:checked')).map(cb => cb.value);
-    selectedFilters.course = Array.from(document.querySelectorAll('input[data-category="course"]:checked')).map(cb => cb.value);
-    selectedFilters.alcohol = Array.from(document.querySelectorAll('input[data-category="alcohol"]:checked')).map(cb => cb.value);
-    updateMarkers();
-  });
+document.querySelectorAll('#filter-panel input[type="checkbox"], #filter-modal input[type="checkbox"]').forEach(checkbox => {
+  checkbox.addEventListener('change', updateSelectedFiltersAndRefresh);
 });
+
 
 keywordInput.addEventListener('input', () => {
   const val = keywordInput.value.trim().toLowerCase();
@@ -1314,9 +1315,30 @@ function updateMarkers() {
   });
 }
 
+function updateSelectedFiltersAndRefresh() {
+  selectedFilters.genre   = Array.from(document.querySelectorAll('input[data-category="genre"]:checked')).map(cb => cb.value);
+  selectedFilters.scene   = Array.from(document.querySelectorAll('input[data-category="scene"]:checked')).map(cb => cb.value);
+  selectedFilters.seat    = Array.from(document.querySelectorAll('input[data-category="seat"]:checked')).map(cb => cb.value);
+  selectedFilters.course  = Array.from(document.querySelectorAll('input[data-category="course"]:checked')).map(cb => cb.value);
+  selectedFilters.alcohol = Array.from(document.querySelectorAll('input[data-category="alcohol"]:checked')).map(cb => cb.value);
+  updateMarkers();
+}
+
 document.getElementById("filter-modal-overlay").addEventListener("click", () => {
   document.getElementById("filter-modal").classList.remove("show");
   document.getElementById("filter-modal-overlay").classList.remove("show");
+});
+
+document.getElementById('clear-filters-mobile')?.addEventListener('click', () => {
+  document.querySelectorAll('#filter-modal input[type="checkbox"]').forEach(cb => cb.checked = false);
+  selectedFilters.genre = [];
+  selectedFilters.scene = [];
+  selectedFilters.seat = [];
+  selectedFilters.course = [];
+  selectedFilters.alcohol = [];
+  keywordInput.value = '';
+  autoCompleteList.style.display = 'none';
+  updateMarkers();
 });
 
 </script>
@@ -1537,6 +1559,23 @@ document.getElementById("filter-modal-overlay").addEventListener("click", () => 
     </div>
 
     <button id="clear-filters"><i class="fas fa-undo"></i>すべて解除</button>
+    
+    <button id="clear-filters-mobile" style="
+      padding: 8px 16px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: white;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    ">
+      <i class="fas fa-undo" style="margin-right: 6px;"></i>すべて解除
+    </button>
+
   </div>
 </div>
 
