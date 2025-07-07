@@ -1241,7 +1241,9 @@ document.querySelectorAll('.parent-toggle').forEach(toggle => {
   parentCheckbox.addEventListener('change', () => {
     const children = document.querySelectorAll(`.filter-children[data-group="${group}"] input[type="checkbox"]`);
     children.forEach(child => child.checked = parentCheckbox.checked);
-    updateSelectedFiltersAndRefresh(); // 既存の絞り込みを反映
+
+    // ✅ 正しくチェック状態を反映させる
+    updateSelectedFiltersAndRefresh();
   });
 });
 
@@ -1356,8 +1358,28 @@ document.getElementById('clear-filters-mobile')?.addEventListener('click', () =>
   selectedFilters.alcohol = [];
   keywordInput.value = '';
   autoCompleteList.style.display = 'none';
-  updateMarkers();
+  updateSelectedFiltersAndRefresh();
+  closeModal(); // ← 追加で閉じる
 });
+
+document.querySelectorAll('.filter-children input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    updateSelectedFiltersAndRefresh();
+  });
+});
+
+// 検索ボタンクリック時にも実行される
+document.getElementById('search-button').addEventListener('click', () => {
+  updateSelectedFiltersAndRefresh();
+  closeModal();
+});
+
+
+function closeModal() {
+  document.getElementById("filter-modal").classList.remove("show");
+  document.getElementById("filter-modal-overlay").classList.remove("show");
+}
+
 
 </script>
 
@@ -1576,8 +1598,11 @@ document.getElementById('clear-filters-mobile')?.addEventListener('click', () =>
       <ul id="autocomplete-list" style="display:none;"></ul>
     </div>
 
-    <button id="clear-filters"><i class="fas fa-undo"></i>すべて解除</button>
+    <button id="clear-filters-mobile"><i class="fas fa-undo"></i>すべて解除</button>
     
+    <!-- モバイルのfilter-modalの中、すべて解除のあとなどに追記 -->
+    <button id="search-button" style="margin-top: 16px;">検索</button>
+
     <button id="clear-filters-mobile" style="
       padding: 8px 16px;
       font-size: 15px;
