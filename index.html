@@ -1241,7 +1241,7 @@ document.querySelectorAll('.parent-toggle').forEach(toggle => {
   parentCheckbox.addEventListener('change', () => {
     const children = document.querySelectorAll(`.filter-children[data-group="${group}"] input[type="checkbox"]`);
     children.forEach(child => child.checked = parentCheckbox.checked);
-    updateMarkers(); // 既存の絞り込みを反映
+    updateSelectedFiltersAndRefresh(); // 既存の絞り込みを反映
   });
 });
 
@@ -1316,13 +1316,31 @@ function updateMarkers() {
 }
 
 function updateSelectedFiltersAndRefresh() {
-  selectedFilters.genre   = Array.from(document.querySelectorAll('input[data-category="genre"]:checked')).map(cb => cb.value);
-  selectedFilters.scene   = Array.from(document.querySelectorAll('input[data-category="scene"]:checked')).map(cb => cb.value);
-  selectedFilters.seat    = Array.from(document.querySelectorAll('input[data-category="seat"]:checked')).map(cb => cb.value);
-  selectedFilters.course  = Array.from(document.querySelectorAll('input[data-category="course"]:checked')).map(cb => cb.value);
-  selectedFilters.alcohol = Array.from(document.querySelectorAll('input[data-category="alcohol"]:checked')).map(cb => cb.value);
+  const allCheckboxes = document.querySelectorAll('input[data-category]');
+
+  selectedFilters.genre = Array.from(allCheckboxes)
+    .filter(cb => cb.dataset.category === 'genre' && cb.checked)
+    .map(cb => cb.value);
+
+  selectedFilters.scene = Array.from(allCheckboxes)
+    .filter(cb => cb.dataset.category === 'scene' && cb.checked)
+    .map(cb => cb.value);
+
+  selectedFilters.seat = Array.from(allCheckboxes)
+    .filter(cb => cb.dataset.category === 'seat' && cb.checked)
+    .map(cb => cb.value);
+
+  selectedFilters.course = Array.from(allCheckboxes)
+    .filter(cb => cb.dataset.category === 'course' && cb.checked)
+    .map(cb => cb.value);
+
+  selectedFilters.alcohol = Array.from(allCheckboxes)
+    .filter(cb => cb.dataset.category === 'alcohol' && cb.checked)
+    .map(cb => cb.value);
+
   updateMarkers();
 }
+
 
 document.getElementById("filter-modal-overlay").addEventListener("click", () => {
   document.getElementById("filter-modal").classList.remove("show");
