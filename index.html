@@ -217,22 +217,34 @@
       <label><input type="checkbox" data-category="alcohol" value="カクテル"> カクテル</label>
     </div>
 
-
-    <div class="filter-group keyword-group">
-      <h4>キーワード</h4>
-      <input type="text" id="keyword" placeholder="店名・住所" autocomplete="off" />
-      <ul id="autocomplete-list" style="display:none;"></ul>
-    </div>
-
     <button id="clear-filters"><i class="fas fa-undo"></i>すべて解除</button>
   </div>
 
   <div id="map"></div>
 </div>
+<div id="search-bar">
+  <input type="text" id="keyword" placeholder="店名・住所" autocomplete="off" />
+  <ul id="autocomplete-list" style="display:none;"></ul>
+</div>
+
 <div id="shop-list"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="shops.js"></script>
 <script src="main.js"></script>
+<div id="usage-modal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>-----使い方ガイド-----</h3>
+    <div class="guide-text">
+      上部の検索バーに店名や住所を入力して検索できます。<br>
+      右上の「フィルター」ボタンからジャンルやシーンなどで絞り込みも可能です。<br>
+      店舗カードをクリックすると、地図がそのお店の位置に移動します。
+    </div>
+    <label><input type="checkbox" id="dont-show-again"> 今後このガイドを表示しない</label>
+    <button id="close-usage-modal">閉じる</button>
+  </div>
+</div>
+
+
 </body>
 </html>

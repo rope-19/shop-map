@@ -235,3 +235,20 @@ document.querySelectorAll('.filter-children input[type="checkbox"]').forEach(cb 
     updateSelectedFiltersAndRefresh();
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('usage-modal');
+  const closeBtn = document.getElementById('close-usage-modal');
+  const dontShowCheckbox = document.getElementById('dont-show-again');
+
+  if (!localStorage.getItem('hideUsageGuide')) {
+    modal.style.display = 'flex';
+  }
+
+  closeBtn.addEventListener('click', () => {
+    if (dontShowCheckbox.checked) {
+      localStorage.setItem('hideUsageGuide', 'true');
+    }
+    modal.style.display = 'none';
+  });
+});
