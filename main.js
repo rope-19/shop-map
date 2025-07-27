@@ -236,19 +236,37 @@ document.querySelectorAll('.filter-children input[type="checkbox"]').forEach(cb 
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('usage-modal');
-  const closeBtn = document.getElementById('close-usage-modal');
-  const dontShowCheckbox = document.getElementById('dont-show-again');
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("usage-modal");
+  const closeButton = document.getElementById("close-usage-modal");
+  const dontShowCheckbox = document.getElementById("dont-show-again");
 
-  if (!localStorage.getItem('hideUsageGuide')) {
-    modal.style.display = 'flex';
+  const hideUntilStr = localStorage.getItem("hideGuideUntil");
+
+  // ▶ 読み込み時：非表示期限を確認
+  if (hideUntilStr) {
+    const now = new Date();
+    const hideUntil = new Date(hideUntilStr);
+
+    if (now < hideUntil) {
+      modal.style.display = "none";
+    } else {
+      // 期限が過ぎていたら削除して再表示
+      localStorage.removeItem("hideGuideUntil");
+      modal.style.display = "flex";
+    }
+  } else {
+    modal.style.display = "flex";
   }
 
-  closeBtn.addEventListener('click', () => {
+  // ▶ 閉じるボタン
+  closeButton.addEventListener("click", () => {
     if (dontShowCheckbox.checked) {
-      localStorage.setItem('hideUsageGuide', 'true');
+      const hideUntil = new Date();
+      hideUntil.setMonth(hideUntil.getMonth() + 1); // ← 1ヶ月後
+      localStorage.setItem("hideGuideUntil", hideUntil.toISOString());
     }
-    modal.style.display = 'none';
+    modal.style.display = "none";
   });
 });
+
