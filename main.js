@@ -270,3 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.getElementById('clear-keyword').addEventListener('click', () => {
+  keywordInput.value = '';
+  autoCompleteList.style.display = 'none';
+  updateMarkers();
+});

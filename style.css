@@ -97,34 +97,36 @@ html, body {
 
 /* オートコンプリート候補リスト */
 #autocomplete-list {
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 200px;
-    overflow-y: auto;
-    width: 100%;
-    max-width: 480px;  /* ← 検索バーに合わせて */
-    box-sizing: border-box;
-    z-index: 1100;
-    white-space: nowrap;        /* ← 折り返し防止 */
-    overflow-x: auto;           /* ← 横スクロール許可（長文対応） */
+  position: absolute;
+  top: 100%; /* 入力ボックスの直下 */
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1002;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 300px; /* 適切な高さ制限 */
+  overflow-y: auto;  /* 多すぎる候補はスクロール */
+  width: 100%; /* 親（input）の幅に合わせる */
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
 #autocomplete-list li {
-    padding: 6px 10px;
-    cursor: pointer;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  padding: 8px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.2s ease;
 }
 
-
-#autocomplete-list li:hover {
-    background-color: #007bff;
-    color: white;
+#autocomplete-list li:hover,
+#autocomplete-list li.autocomplete-active {
+  background-color: #007bff;
+  color: white;
 }
+
 
 /* キーワード入力親要素をrelativeに */
 .filter-group.keyword-group {
@@ -300,28 +302,44 @@ gap: 4px;
 }
 
 #search-bar {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    background: white;
-    border-radius: 8px;
-    padding: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    max-width: 480px;
-    width: 90%;
-    box-sizing: border-box;
+  position: absolute;
+  top: 10px;
+  left: 70px;
+  right: 80px;
+  z-index: 1001;
+  height: 44px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  padding: 0; /* ← 余計な内側余白は削除 */
 }
 
-
 #search-bar input {
-    width: 100%;
-    padding: 8px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  font-size: 16px;
+  line-height: 44px;
+  border: none; /* ← 外枠なしにして親に統一感を持たせる */
+  border-radius: 8px; /* 親と同じ角丸 */
+  box-sizing: border-box;
+  outline: none;
+  background: transparent; /* 親要素の背景を活かす */
+}
+
+#search-bar button#clear-keyword {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #999;
+  padding: 0 10px;
+  cursor: pointer;
+  height: 100%;
+}
+#search-bar button#clear-keyword:hover {
+  color: #333;
 }
 
 #usage-modal {
